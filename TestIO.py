@@ -3,9 +3,11 @@
 # File: Test.py
 # Purpose: Unit tests for Image Recovery application
 
+from FileIO import *
 import unittest
 
 class TestIO(unittest.TestCase):
 
-if __name__ == "__main__":
-	unittest.main()
+	def testReadText(self):
+		self.assertEqual(readText("test/testTextFile.txt"), "Hello, world!\n")
+
