@@ -11,7 +11,7 @@ from FileIO import *
 class TestFileIO(unittest.TestCase):
 
 	def testReadText(self):
-		self.assertEqual(readText("testFiles/testTextFile.txt"), "Hello, world!")
+		self.assertEqual(readText("testIO/testFileIO.txt"), "Hello, world!")
 
 	def testWriteText(self):
-		self.assertTrue(writeText("testFiles/testTextFile.txt", "Hello, world!"))
+		self.assertTrue(writeText("testIO/testFileIO.txt", "Hello, world!"))

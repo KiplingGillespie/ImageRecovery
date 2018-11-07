@@ -5,9 +5,14 @@
 import unittest
 import sys
 sys.path.append("../")
+from FileIO import *
 from CommentCounter import *
 
-
 class TestCommentCounter(unittest.TestCase):
-	def testGetComments():
-	def testGetWords():
+	def testGetComments(self):
+		text = FileIO.readText("test/testIO/testCommentCounter.txt")
+		self.assertEquals(getComments(text), ["This is a comment"]) 
+
+	def testGetWords(self):
+		text = FileIO.readText("test/testIO/testCommentCounter.txt")
+		self.assertEquals(getWords(text), ["This", "is", "a", "comment", "But", "I", "am", "not"])
