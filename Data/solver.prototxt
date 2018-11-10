@@ -1,5 +1,5 @@
 # The train/test net protocol buffer definition
-net: "Data/data.prototxt"
+net: "Data/net.prototxt"
 test_iter: 100
 # Carry out testing every 500 training iterations.
 test_interval: 5000
@@ -13,7 +13,7 @@ lr_policy: "fixed"
 # Display results every 100 iterations
 display: 100
 # Maximum number of iterations
-max_iter: 1000000
+max_iter: 100000
 # write intermediate results (snapshots)
 snapshot: 5000
 snapshot_prefix: "Data/snapshot-56_12_4"

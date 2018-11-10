@@ -1,12 +1,13 @@
 name: "SR_test"
+
 layer {
   name: "data"
   type: "HDF5Data"
   top: "data"
   top: "label"
   hdf5_data_param {
-    // We need to change the source folder and files
-    source: "examples/FSRCNN/train.txt"
+    #We need to change the source folder and files
+    source: "Data/train.txt"
     batch_size: 2
   }
   include: { phase: TRAIN }
@@ -17,8 +18,8 @@ layer {
   top: "data"
   top: "label"
   hdf5_data_param {
-    // We need to change the source folder and files
-    source: "examples/FSRCNN/test.txt"
+    #We need to change the source folder and files
+    source: "Data/test.txt"
     batch_size: 2
   }
   include: { phase: TEST }

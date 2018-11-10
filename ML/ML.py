@@ -6,8 +6,9 @@ import matplotlib.image as mpimg
 from PIL import Image
 import caffe
 
-caffe.set_mode_cpu()
 
-net = caffe.Net('Data/data.prototxt', caffe.TEST)
+def Train(solver = "Data/solver.prototxt"):
+    caffe.set_mode_cpu()
+    solver = caffe.get_solver(solver)
+    solver.solve();
 
-net.forward()
