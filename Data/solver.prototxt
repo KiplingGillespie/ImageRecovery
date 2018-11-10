@@ -1,8 +1,5 @@
 # The train/test net protocol buffer definition
 net: "Data/net.prototxt"
-test_iter: 100
-# Carry out testing every 500 training iterations.
-test_interval: 5000
 # The base learning rate, momentum and the weight decay of the network.
 #base_lr: 0.005
 base_lr: 0.001
@@ -11,11 +8,11 @@ weight_decay: 0
 # Learning rate policy
 lr_policy: "fixed"
 # Display results every 100 iterations
-display: 100
+display: 1
 # Maximum number of iterations
 max_iter: 100000
 # write intermediate results (snapshots)
-snapshot: 5000
+snapshot: 10
 snapshot_prefix: "Data/snapshot-56_12_4"
 # solver mode: CPU or GPU
 solver_mode: CPU

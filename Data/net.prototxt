@@ -3,23 +3,23 @@ name: "SR_test"
 layer {
   name: "data"
   type: "HDF5Data"
-  top: "data"
-  top: "label"
+  top: "Input"
+  top: "Ground"
   hdf5_data_param {
     #We need to change the source folder and files
-    source: "Data/train.txt"
-    batch_size: 2
+    source: "../Data/hd5/train.txt"
+    batch_size: 56
   }
   include: { phase: TRAIN }
 }
 layer {
   name: "data"
   type: "HDF5Data"
-  top: "data"
-  top: "label"
+  top: "Input"
+  top: "Ground"
   hdf5_data_param {
     #We need to change the source folder and files
-    source: "Data/test.txt"
+    source: "../Data/hd5/test.txt"
     batch_size: 2
   }
   include: { phase: TEST }
@@ -28,7 +28,7 @@ layer {
 layer {
   name: "conv1"
   type: "Convolution"
-  bottom: "data"
+  bottom: "Input"
   top: "conv1"
   param {
     lr_mult: 1
@@ -275,7 +275,7 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 1
+    num_output: 8281
     kernel_size: 9
     stride: 56
     pad: 0
@@ -293,7 +293,7 @@ layer {
 layer {
   name: "loss"
   type: "EuclideanLoss"
-  bottom: "conv3"
-  bottom: "label"
+  bottom: "deconv1"
+  bottom: "Ground"
   top: "loss"
 }
