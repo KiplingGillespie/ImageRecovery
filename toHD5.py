@@ -57,7 +57,8 @@ def toHD5(imageIn, imageGnd, outfile):
     image_ycrcbGnd = image_ycrcbGnd.reshape((image_ycrcbGnd.shape[0], image_ycrcbGnd.shape[1]))
     
     height, width = image_ycrcbGnd.shape[:2]
-    stride = int(sqrt(height*width/1024)) +1
+    #stride = int(sqrt(height*width/1024)) +1
+    stride = 92
     size_ground = stride
     
     # Declare tensors to hold 1024 LR-HR subimage pairs
