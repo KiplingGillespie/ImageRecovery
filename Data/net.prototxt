@@ -7,7 +7,7 @@ layer {
   top: "Ground"
   hdf5_data_param {
     #We need to change the source folder and files
-    source: "../Data/hd5/train.txt"
+    source: "../Data/hd5/temp/train.txt"
     batch_size: 56
   }
   include: { phase: TRAIN }
@@ -19,8 +19,8 @@ layer {
   top: "Ground"
   hdf5_data_param {
     #We need to change the source folder and files
-    source: "../Data/hd5/test.txt"
-    batch_size: 2
+    source: "../Data/hd5/temp/test.txt"
+    batch_size: 1
   }
   include: { phase: TEST }
 }
@@ -37,7 +37,7 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 56
+    num_output: 128
     kernel_size: 5
     stride: 1
     pad: 0
@@ -71,9 +71,9 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 12
+    num_output: 16
     kernel_size: 1
-    stride: 56
+    stride: 128
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -105,9 +105,9 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 12
-    kernel_size: 3
-    stride: 12
+    num_output: 16
+    kernel_size: 4
+    stride: 16
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -139,9 +139,9 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 12
-    kernel_size: 3
-    stride: 12
+    num_output: 16
+    kernel_size: 4
+    stride: 16
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -173,9 +173,9 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 12
-    kernel_size: 3
-    stride: 12
+    num_output: 16
+    kernel_size: 4
+    stride: 16
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -207,9 +207,9 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 12
-    kernel_size: 3
-    stride: 12
+    num_output: 16
+    kernel_size: 4
+    stride: 16
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -243,7 +243,7 @@ layer {
   convolution_param {
     num_output: 56
     kernel_size: 1
-    stride: 12
+    stride: 16
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -265,7 +265,7 @@ layer {
 
 layer {
   name: "deconv1"
-  type: "Convolution"
+  type: "Deconvolution"
   bottom: "conv7"
   top: "deconv1"
   param {
@@ -275,9 +275,9 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 8281
-    kernel_size: 9
-    stride: 56
+    num_output: 16
+    kernel_size: 23
+    stride: 128
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -296,4 +296,5 @@ layer {
   bottom: "deconv1"
   bottom: "Ground"
   top: "loss"
+  exclude: { phase: TEST }
 }
