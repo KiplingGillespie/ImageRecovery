@@ -1,0 +1,11 @@
+Linux Requirements:
+Python 3.6.6
+Opencv-python 3.4.3.18
+Numpy 1.13.3
+Matplotlib 2.1.1
+PyQt5 5.11.3
+4 GB Memory
+Intel i3 Processor
+
+Installation Instruction:
+git clone https://github.com/KiplingGillespie/ImageRecovery.git
