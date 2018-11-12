@@ -9,3 +9,7 @@ Intel i3 Processor
 
 Installation Instruction:
 git clone https://github.com/KiplingGillespie/ImageRecovery.git
+
+Download Training Files from
+https://drive.google.com/file/d/1Cn82j0L6uXhDk1Mq4-HAYnBC1tZmTUQW/view
+Unzip TrainingData.zip and store the MinFQ folder in the projects Data folder.
