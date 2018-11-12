@@ -7,10 +7,10 @@ import cv2
 import caffe
 
 
-def Clean(inputFile='../Data/TrainingData/MinQF/_Page_01.jpg',
+def Clean(inputFile='Data/TrainingData/MinQF/_Page_01.jpg',
           outputFile = '../peppersl_clean.jpg',
-          model='../Data/snapshot-56_12_4_iter_1.caffemodel',
-          net = '../Data/net.prototxt',
+          model='Data/snapshot-56_12_4_iter_1.caffemodel',
+          net = 'Data/net.prototxt',
           scale = 10):
 
     # Create Caffe model using pretrained model
@@ -18,7 +18,6 @@ def Clean(inputFile='../Data/TrainingData/MinQF/_Page_01.jpg',
 
     # Input image
     im_raw = cv2.imread(inputFile)
-    #c1, c2, h, w = im_raw.shape
 
 
     ycrcb = cv2.cvtColor(im_raw, cv2.COLOR_RGB2YCR_CB)

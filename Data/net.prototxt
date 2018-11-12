@@ -7,7 +7,7 @@ layer {
   top: "Ground"
   hdf5_data_param {
     #We need to change the source folder and files
-    source: "../Data/hd5/temp/train.txt"
+    source: "Data/hd5/temp/train.txt"
     batch_size: 56
   }
   include: { phase: TRAIN }
@@ -19,7 +19,7 @@ layer {
   top: "Ground"
   hdf5_data_param {
     #We need to change the source folder and files
-    source: "../Data/hd5/temp/test.txt"
+    source: "Data/hd5/temp/test.txt"
     batch_size: 1
   }
   include: { phase: TEST }
@@ -39,7 +39,7 @@ layer {
   convolution_param {
     num_output: 128
     kernel_size: 5
-    stride: 1
+    stride: 56
     pad: 0
     weight_filler {
       type: "gaussian"
