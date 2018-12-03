@@ -2,15 +2,18 @@
 
 from PyQt5.QtWidgets import	(QWidget, QListWidget, QListWidgetItem,
 	QFileDialog, QMessageBox, QToolButton,
-	QLabel, QSplitter, QTextEdit, QFrame,
+	QLabel, QSplitter, QTextEdit, QFrame, QLineEdit,
 	QToolBar, QAction,
-	QVBoxLayout, QBoxLayout)
+	QVBoxLayout, QHBoxLayout, QBoxLayout)
 from PyQt5.QtGui import	QIcon
 from PyQt5.QtCore import	Qt, QSize
 
 import os
 import FileIO
 import QtHelper
+import toHD5
+import ML
+import Clean
 
 
 class ImageDump( QWidget ):
@@ -44,7 +47,7 @@ class ImageDump( QWidget ):
 		
 		self.list = QListWidget( self )
 		self.list.setSelectionMode( self.list.ExtendedSelection ) #MultiSelection?
-		self.list.setIconSize( QSize( 80, 80 ) )
+		self.list.setIconSize( QSize( 60, 60 ) )
 		#self.list.setFlow( QListWidget.LeftToRight )
 		#self.list.setResizeMode( QListWidget.Adjust ) # TODO: Finish QListWidget settings
 		#self.list.setSpacing( 2 )
@@ -147,6 +150,7 @@ class ImageDump( QWidget ):
 		self.addItems( filenames )
 
 
+
 class ModelTrainingWidget( QWidget ):
 
 	def __init__( self ):
@@ -176,6 +180,7 @@ class ModelTrainingWidget( QWidget ):
 	
 		right_vbox = QVBoxLayout()
 		
+		'''
 		self.training_set	= ImageDump( self, 'Training Set' )
 		self.testing_set	= ImageDump( self, 'Testing Set' )
 		self.swap_button	= QToolButton( self )
@@ -194,6 +199,21 @@ class ModelTrainingWidget( QWidget ):
 		right_vbox.addLayout( inner_vbox )
 		
 		right_vbox.addWidget( self.testing_set )
+		'''
+
+		comp_hbox = QHBoxLayout()
+		comp_hbox.addWidget( QLabel( 'Compressed Input Directory: ' ) )
+		self.comp_dir	= QLineEdit( '' )
+		comp_hbox.addWidget( self.comp_dir )
+		
+		ground_hbox	= QHBoxLayout()
+		ground_hbox.addWidget( QLabel( 'Ground Truth Directory: ' ) )
+		self.ground_dir	= QLineEdit( '' )
+		ground_hbox.addWidget( self.ground_dir )
+		
+		right_vbox.addLayout( comp_hbox )
+		right_vbox.addLayout( ground_hbox )
+
 		
 		### Plug into Splitter ###
 		
@@ -234,3 +254,15 @@ class ModelTrainingWidget( QWidget ):
 		
 			self.training_set.addItems( testing_swap )
 			self.testing_set.addItems( training_swap )
+	
+	
+	### Actions ###
+	
+	def trainModel( self ):
+		'''Trains the model using the current training and testing image sets.'''
+		
+		#QtHelper.dialog( 'model training is not yet implemented' )
+		
+		toHD5.pairsToHD5( self.comp_dir.text(), self.ground_dir.text() )
+		
+		ML.Train()

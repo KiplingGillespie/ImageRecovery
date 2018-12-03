@@ -13,9 +13,11 @@ from RestorationWidget import RestorationWidget
 import sys
 import os
 os.chdir( QStandardPaths.writableLocation( QStandardPaths.StandardLocation.DocumentsLocation ) )
+from functools import partial
 
 #import FileIO
 import QtHelper
+
 
 
 class ImageRestorationApp( QMainWindow ):
@@ -61,6 +63,17 @@ class ImageRestorationApp( QMainWindow ):
 		""" Populates the menu bar with various menus and actions """
 		
 		# File Menu
+		
+		self.file_menu	= menubar.addMenu( '&File' )
+		
+		self.file_menu.addAction( self.open_act )
+		self.file_menu.addSeparator()
+		self.file_menu.addAction( self.import_model_act )
+		self.file_menu.addAction( self.export_model_act )
+		self.file_menu.addSeparator()
+		self.file_menu.addAction( self.exit_act )
+		
+		'''
 		self.file_menu_restore = menubar.addMenu( '&File' )
 		
 		self.file_menu_restore.addAction( self.open_act )	# open
@@ -76,23 +89,23 @@ class ImageRestorationApp( QMainWindow ):
 		self.file_menu_train.addAction( self.export_model_act )	# export model
 		self.file_menu_train.addSeparator()	# -------------
 		self.file_menu_train.addAction( self.exit_act )	# exit
+		'''
 		
-		# Adds toolbars for each mode under the menubar.
-		self.toolbar_restore	= self.addToolBar( 'Toolbar Restore' )
-		self.toolbar_train	= self.addToolBar( 'Toolbar Train' )
+		# Adds a toolbar, and populates it with frequently used actions
+		
+		self.toolbar	= self.addToolBar( 'Toolbar' )
+		
+		self.toolbar.addAction( self.training_mode_act )
+		self.toolbar.addAction( self.restore_mode_act )
+		self.toolbar.addSeparator()
+		self.toolbar.addAction( self.restore_act )
+		self.toolbar.addAction( self.train_act )
+		
+		
+		### Setup Window and Set Mode ###
 		
 		self.toRestoreMode()
-		
-		# Adds some frequently used actions to the toolbars
-		self.toolbar_restore.addAction( self.training_mode_act )
-		self.toolbar_restore.addSeparator()
-		self.toolbar_restore.addAction( self.restore_act )
-		
-		self.toolbar_train.addAction( self.restore_mode_act )
-		self.toolbar_train.addSeparator()
-		
-		# X-Pos, Y-Pos, Width, Height
-		self.setGeometry( 100, 100, 800, 600 )
+		self.setGeometry( 100, 100, 800, 600 ) # X-Pos, Y-Pos, Width, Height
 		self.setWindowTitle( 'Image Restoration' )
 		
 		self.show()
@@ -101,14 +114,28 @@ class ImageRestorationApp( QMainWindow ):
 	def initActions( self ):
 		'''Initializes each action used by the application.'''
 
-		self.open_act	= QtHelper.initAction( self, 'Open', self.image_restoration.openImage, shortcut='Ctrl+O', status='Open Image', icon='Open Image.png' )
 		self.import_model_act	= QtHelper.initAction( self, 'Import Model', self.importModel, status='Import Model' )
 		self.export_model_act	= QtHelper.initAction( self, 'Export Model', self.exportModel, status='Export Model' )
 		self.exit_act	= QtHelper.initAction( self, 'Exit', self.close, shortcut='Alt+F4', status='Exit Application' )
-		self.restore_act	= QtHelper.initAction( self, 'Restore', self.image_restoration.restoreImage, shortcut='Ctrl+Enter', status='Restore Image', icon='Restore.png' )
+		
+		self.open_act	= QtHelper.initAction( self, 'Open', self.image_restoration.openImage, shortcut='Ctrl+O', status='Open Image', icon='Open Image.png' )
+		self.restore_act	= QtHelper.initAction( self, 'Restore Image', self.image_restoration.restoreImage, shortcut='Ctrl+Enter', status='Restore the opened Image using the current ML Model', icon='Restore.png' )
+		
+		self.train_act	= QtHelper.initAction( self, 'Train Model', self.model_training.trainModel, status='Train the current ML Model using the current training and testing image sets', icon='Train Model.png' )
 		
 		self.restore_mode_act	= QtHelper.initAction( self, 'Restore Mode', self.toRestoreMode, shortcut='', status='Switch to Restore Mode', icon='Change Mode.png' )
 		self.training_mode_act	= QtHelper.initAction( self, 'Training Mode', self.toTrainingMode, shortcut='', status='Switch to Training Mode', icon='Change Mode.png' )
+	
+		self.restore_file_menu_layout	= [self.open_act, '-', self.import_model_act, self.export_model_act, '-', self.exit_act]
+		self.train_file_menu_layout	= [self.import_model_act, self.export_model_act, '-', self.exit_act]
+		
+		self.restore_toolbar_layout	= [self.training_mode_act, '-', self.restore_act]
+		self.train_toolbar_layout	= [self.restore_mode_act, '-', self.train_act]
+		
+		#self.restore_acts	= [self.open_act, self.import_model_act, self.export_model_act, self.exit_act] + [self.training_mode_act, self.restore_act]
+		#self.train_acts	= [self.import_model_act, self.export_model_act, self.exit_act] + [self.restore_mode_act, self.train_act]
+		self.restore_acts	= [x for x in (self.restore_file_menu_layout + self.restore_toolbar_layout) if type(x) is QAction]
+		self.train_acts	= [x for x in (self.train_file_menu_layout + self.train_toolbar_layout) if type(x) is QAction]
 	
 	
 	### Actions ###
@@ -130,29 +157,26 @@ class ImageRestorationApp( QMainWindow ):
 		pass # TODO: Implement exportModel
 		
 	
+	def changeMode( self, restore = True ):
+	
+		first, second = (self.train_acts, self.restore_acts) if restore else (self.restore_acts, self.train_acts)
+		for act in first:
+			act.setVisible( False )
+		for act in second:
+			act.setVisible( True )
+	
+	
 	def toRestoreMode( self ):
 		'''Switches to Restore Mode for restoring images.'''
-	
-		self.toolbar_train.hide()
-		self.toolbar_restore.show()
 		
-		self.file_menu_train.menuAction().setVisible( False )
-		self.file_menu_train.setTitle( 'File' )
-		self.file_menu_restore.menuAction().setVisible( True )
-		self.file_menu_restore.setTitle( '&File' )
+		self.changeMode( True )
 		
 		self.stack.setCurrentIndex( 0 )
 	
 	def toTrainingMode( self ):
 		'''Switches to Training Mode for training the model.'''
-	
-		self.toolbar_restore.hide()
-		self.toolbar_train.show()
 		
-		self.file_menu_restore.menuAction().setVisible( False )
-		self.file_menu_restore.setTitle( 'File' )
-		self.file_menu_train.menuAction().setVisible( True )
-		self.file_menu_train.setTitle( '&File' )
+		self.changeMode( False )
 		
 		self.stack.setCurrentIndex( 1 )
 	

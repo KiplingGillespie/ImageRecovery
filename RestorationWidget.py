@@ -11,6 +11,8 @@ import os
 import FileIO
 import QtHelper
 
+import Clean
+
 
 class RestorationWidget( QWidget ):
 
@@ -52,7 +54,7 @@ class RestorationWidget( QWidget ):
 		read_image = FileIO.readImage( filename[0] )
 		
 		if read_image is None:
-			pass # TODO: Display Error Message
+			pass # Error (weird)
 		else:
 			self.image = read_image
 			self.image_filename	= filename
@@ -61,13 +63,22 @@ class RestorationWidget( QWidget ):
 	def restoreImage( self ):
 		'''Passes the current image through the restoration model, displaying the resulting restored image.'''
 		
-		if not self.image_label.pixmap():
+		if self.image_filename is None:
 			QtHelper.dialog( 'Before restoring an image, please open it using File->Open (Ctrl+O)' )
 			return
 		
-		QtHelper.dialog( 'image restoration is not yet implemented' )
+		#QtHelper.dialog( 'image restoration is not yet implemented' )
 		
-		pass # TODO: Implement restoreImage
+		input_filename	= self.image_filename
+		output_filename	= 'temp_restored_image.png'
 		
-		# output = model.toImage( model.input( model.toNdArray( self.image ) ) )
-		# (or something)
+		Clean.Clean( input_filename, output_filename )
+		
+		read_image	= FileIO.readImage( output_filename )
+		
+		if read_image is None:
+			pass # Error (very weird)
+		else:
+			self.image = read_image
+			self.image_filename = output_filename
+			self.image_label.setPixmap( QPixmap( self.image ) )

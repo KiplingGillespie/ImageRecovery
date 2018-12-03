@@ -4,8 +4,12 @@
 import os
 
 from PyQt5.QtWidgets import QAction, QMessageBox
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QImage
 
+'''
+import cv2
+import numpy as np
+'''
 
 def initAction( self, label, trigger, shortcut = None, status = None, icon = None ):
 	'''Creates a QAction object with the provided parameters.
@@ -43,3 +47,19 @@ def dialog( msg ):
 	dialog = QMessageBox()
 	dialog.setText( msg )
 	dialog.exec()
+
+
+'''
+def toOpenCvImage( self, q_image ):
+
+	q_image	= q_image.convertToFormat( QImage.Format_RGB32 )
+	
+	width	= q_image.width()
+	height	= q_image.height()
+	
+	ptr	= q_image.bits()
+	ptr.setsize( q_image.byteCount() )
+	arr	= np.array( ptr ).reshape( height, width, 4 )
+	
+	return arr
+'''
