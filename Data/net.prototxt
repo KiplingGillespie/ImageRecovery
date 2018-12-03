@@ -1,5 +1,6 @@
 name: "SR_test"
-
+# Training data must be formatted into hd5 format
+# and have their filenames added to a train.txt file.
 layer {
   name: "data"
   type: "HDF5Data"
@@ -37,8 +38,8 @@ layer {
     lr_mult: 0.1
   }
   convolution_param {
-    num_output: 128
-    kernel_size: 5
+    num_output: 23
+    kernel_size: 4
     stride: 56
     pad: 0
     weight_filler {
@@ -73,7 +74,7 @@ layer {
   convolution_param {
     num_output: 16
     kernel_size: 1
-    stride: 128
+    stride: 23
     pad: 0
     weight_filler {
       type: "gaussian"
@@ -296,5 +297,5 @@ layer {
   bottom: "deconv1"
   bottom: "Ground"
   top: "loss"
-  exclude: { phase: TEST }
+  include: { phase: TRAIN }
 }
