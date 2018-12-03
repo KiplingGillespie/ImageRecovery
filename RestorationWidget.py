@@ -72,7 +72,7 @@ class RestorationWidget( QWidget ):
 		input_filename	= self.image_filename
 		output_filename	= 'temp_restored_image.png'
 		
-		Clean.Clean( input_filename, output_filename )
+		Clean.Clean( input_filename[0], output_filename )
 		
 		read_image	= FileIO.readImage( output_filename )
 		

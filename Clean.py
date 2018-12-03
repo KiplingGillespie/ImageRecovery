@@ -91,6 +91,10 @@ def Clean(inputFile='Data/TrainingData/MinQF/_Page_01.jpg',
           net='Data/net.prototxt',
           scale = 10):
 
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
+
+    print(dir_path)
 
     # Set mode to run on CPU
     caffe.set_mode_cpu()
