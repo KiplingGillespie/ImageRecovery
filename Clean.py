@@ -91,11 +91,12 @@ def Clean(inputFile='Data/TrainingData/MinQF/_Page_01.jpg',
           net='Data/net.prototxt',
           scale = 10):
 
-    # Create Caffe model using pretrained model
-    net = caffe.Net(net, model, caffe.TEST)
 
     # Set mode to run on CPU
     caffe.set_mode_cpu()
+
+    # Create Caffe model using pretrained model
+    net = caffe.Net(net, model, caffe.TEST)
 
     # Input image
     im_raw = cv2.imread(inputFile)
