@@ -4,7 +4,6 @@
 #Based on a prototype model made available by intel at
 #https://software.intel.com/en-us/articles/an-example-of-a-convolutional-neural-network-for-image-super-resolution-tutorial
 
-
 import os
 import sys
 import numpy as np
@@ -21,28 +20,26 @@ def pairsToHD5(dirIn, dirGnd):
     dirName = os.path.dirname(os.path.abspath(__file__))
     allFiles = os.listdir(dirGnd)
     numFiles = 0
-	
-    tempDir = os.path.join( dirName, 'temp' )
     
     #Make a temporary folder for the HD5 files if not already made
-    if not os.path.exists( tempDir ):
-        os.mkdir( tempDir )
-    fileList = open( os.path.join( tempDir, 'train.txt' ), 'w')
+    if not os.path.exists(dirName+'\\temp'):
+        os.mkdir(dirName+'\\temp')
+    fileList = open(dirName+"\\temp\\train.txt", 'w')
     
     #For all files
     for filename in allFiles:
-        
+            
         #Read images to process
-        In = cv2.imread( os.path.join( dirIn, os.path.splitext(filename)[0]+'.jpg' ) )
-        Gnd = cv2.imread( os.path.join( dirGnd, filename ) )
+        In = cv2.imread(dirIn+'\\'+os.path.splitext(filename)[0]+'.jpg')
+        Gnd = cv2.imread(dirGnd+'\\'+filename)
         
         #Process each file
-        toHD5(In, Gnd, os.path.join( tempDir, 'train'+str(numFiles) ) )
+        toHD5(In, Gnd, dirName+'\\temp\\train'+str(numFiles))
         numFiles += 1
         
         #Write filename to train.txt
-        fileList.write( os.path.join( tempDir, 'train'+str(numFiles)+'.h5\n' ) )
-
+        fileList.write(dirName+'train'+str(numFiles)+'.h5\n')
+        
     fileList.close()
     return
 
@@ -79,7 +76,7 @@ def toHD5(imageIn, imageGnd, outfile):
             input_Gnd[:,:,0,count-1] = subimage_Gnd
     
     #Create an hdf5 file
-    with h5py.File( outfile+'.h5', 'w' ) as H5:
+    with h5py.File(outfile+'.h5','w') as H5:
         H5.create_dataset( 'Input', data=np.transpose(input_In, (3,2,1,0)) )
         H5.create_dataset( 'Ground', data=np.transpose(input_Gnd, (3,2,1,0)) )
     return

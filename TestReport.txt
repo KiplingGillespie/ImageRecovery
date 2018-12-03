@@ -1,0 +1,42 @@
+Author: Adam Brassfield
+Date: November 12, 2018
+Course: CS 499 - 001
+File: TestReport.txt
+
+Test Plan:
+	For this project, our team decided to use a mix of automated testing as well
+as visual subjective testing. Automated testing allows us to quickly and 
+efficiently test certain modules of our project. This is accomplished using
+Python's unittest library.
+	Visual testing is necessary because of the very nature of our product.
+Unfortunatley, this cannot be automated and can differ from person to person.
+However, as a group we can collectively refine our approval of the test by
+comming to consensus we can all agree upon.
+	Some modules (i.e. ImageRestoreTool) do produce output but do not return any
+values. For these tests, we manually go through various types of input and see
+if we get our expected output.
+
+Automated Unit Test Example #1:
+	Team 9:test$ python3 -m unittest TestFileIO.py
+	..
+	----------------------------------------------------------------------
+	Ran 2 tests in 0.001s
+
+	OK
+
+Automated Unit Test Example #2:
+	Team 9:test$ python3 -m unittest TestCommentCounter.py
+	..
+	----------------------------------------------------------------------
+	Ran 2 tests in 0.002s
+
+	OK
+
+Subjective Visual Testing:
+	So far, the output image of our tests do not meet the standards we require 
+for our product.
+
+Future testing:
+	- Expand tests as the rest of our project expands
+	- Add support for quantitative image comparison testing
+	- Add additional testing for existing modules

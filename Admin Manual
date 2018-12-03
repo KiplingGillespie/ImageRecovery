@@ -1,0 +1,15 @@
+Linux Requirements:
+Python 3.6.6
+Opencv-python 3.4.3.18
+Numpy 1.13.3
+Matplotlib 2.1.1
+PyQt5 5.11.3
+4 GB Memory
+Intel i3 Processor
+
+Installation Instruction:
+git clone https://github.com/KiplingGillespie/ImageRecovery.git
+
+Download Training Files from
+https://drive.google.com/file/d/1Cn82j0L6uXhDk1Mq4-HAYnBC1tZmTUQW/view
+Unzip TrainingData.zip and store the MinFQ folder in the projects Data folder.
